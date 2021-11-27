@@ -152,7 +152,6 @@ class Blockchain {
     getBlockByHash(hash) {
         let self = this;
         return new Promise((resolve, reject) => {
-            const chainHeight = self.height;
             let block = self.chain.filter(p => p.hash === hash)[0];
             if(block){
                 resolve(block);
@@ -203,6 +202,27 @@ class Blockchain {
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
+            // Loop over chain and skip Genesis Block
+            for (var i = 0; i < this.chain.length-1; i++) {
+                // validate block
+                if (!self.chain[i].validate()) {
+                    errorLog.push(i);
+                }
+                // compare blocks hash link
+                let blockHash = self.chain[i].hash;
+                let previousHash = self.chain[i+1].previousBlockHash;
+                if (blockHash!==previousHash) {
+                  errorLog.push(i);
+                }
+              }
+              if (errorLog.length>0) {
+                  resolve({
+                      'Block errors': errorLog.length,
+                      'Blocks': errorLog
+                  })
+              } else {
+                resolve('Blockchain is valid');
+              }
             
         });
     }
