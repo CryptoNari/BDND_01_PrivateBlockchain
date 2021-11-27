@@ -132,8 +132,8 @@ class Blockchain {
                 if(!validation){
                     reject(new Error("Verification is invalid"))
                 }
-                // creating new block with star as block body/data
-                const newBlock = new Block(star);
+                // creating new block with owner and star as block body/data
+                const newBlock = new BlockClass.Block({'owner': address,'star':star});
                 // adding block to blockchain 
                 self._addBlock(newBlock);
                 resolve(newBlock);
