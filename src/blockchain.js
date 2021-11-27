@@ -153,19 +153,12 @@ class Blockchain {
         let self = this;
         return new Promise((resolve, reject) => {
             const chainHeight = self.height;
-            try{
-                for(let i = 0; i <= chainHeight; i++){
-                    const block = self.chain[i];
-                    if (block.hash === hash) {
-                        resolve(block)
-                    }
-                }
-                reject(new Error(`No Block with hash:"${hash}"found`))
-
-            } catch(error) {
-                reject(error);
+            let block = self.chain.filter(p => p.hash === hash)[0];
+            if(block){
+                resolve(block);
+            } else {
+                resolve(null);
             }
-           
         });
     }
 
