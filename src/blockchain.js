@@ -188,6 +188,15 @@ class Blockchain {
         let self = this;
         let stars = [];
         return new Promise((resolve, reject) => {
+            // Loop over chain and skip Genesis Block
+            for (var i = 0; i < this.chain.length-1; i++) {
+                // validate block
+                const blockData = self.chain[i].getBData() 
+                if (blockData.owner === address) {
+                    stars.push(blockData);
+                }
+            }
+            resolve(stars)    
             
         });
     }
