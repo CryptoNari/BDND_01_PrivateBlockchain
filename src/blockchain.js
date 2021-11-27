@@ -54,12 +54,6 @@ class Blockchain {
      * @param {*} block 
      * The method will return a Promise that will resolve with the block added
      * or reject if an error happen during the execution.
-     * You will need to check for the height to assign the `previousBlockHash`,
-     * assign the `timestamp` and the correct `height`...At the end you need to 
-     * create the `block hash` and push the block into the chain array. Don't for get 
-     * to update the `this.height`
-     * Note: the symbol `_` in the method name indicates in the javascript convention 
-     * that this method is a private method. 
      */
     _addBlock(block) {
         let self = this;
@@ -83,7 +77,6 @@ class Blockchain {
             } catch(error) {
                 reject(error);
             }
-           
         });
     }
 
@@ -97,7 +90,9 @@ class Blockchain {
      */
     requestMessageOwnershipVerification(address) {
         return new Promise((resolve) => {
-            
+            resolve(
+                `${address}:${new Date().getTime().toString().slice(0,-3)}:starRegistry`
+            )
         });
     }
 
@@ -121,7 +116,30 @@ class Blockchain {
     submitStar(address, message, signature, star) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-            
+            // getting the time from the message and current time
+            const messageTime = parseInt(message.split(':')[1]);
+            const currentTime = parseInt(new Date().getTime().toString().slice(0, -3));
+            // defining maximum allowed elapsed time 5 minutes
+            const maxElapsedTime = 60 * 5;
+
+            try{
+                // check elapsed time
+                if((currentTime - messageTime) >= maxElapsedTime){
+                    reject(new Error("5 minute validation time has passed"))
+                }
+                // Verify message,address and signature
+                const validation = bitcoinMessage.verify(message, address, signature);
+                if(!validation){
+                    reject(new Error("Verification is invalid"))
+                }
+                // creating new block with star as block body/data
+                const newBlock = new Block(star);
+                // adding block to blockchain 
+                self._addBlock(newBlock);
+                resolve(newBlock);
+            } catch (error) {
+                reject(error);
+            }    
         });
     }
 
