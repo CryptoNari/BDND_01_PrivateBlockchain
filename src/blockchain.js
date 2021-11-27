@@ -64,8 +64,8 @@ class Blockchain {
                 // creating UTC Timestamp
                 block.time = new Date().getTime().toString().slice(0,-3);
                 // getting previous Block Hash, exclude Genesis Block
-                if(this.chain.length>0){
-                    block.previousBlockHash = self.chain[self.height - 1].hash; 
+                if(self.chain.length>0){
+                    block.previousBlockHash = self.chain[self.chain.length - 1].hash; 
                   }
                 // creating Block Hash with SHA256 using block with complete header/body data, converting to a string 
                 block.hash = SHA256(JSON.stringify(block)).toString();
@@ -79,7 +79,7 @@ class Blockchain {
             }
         });
     }
-
+    
     /**
      * The requestMessageOwnershipVerification(address) method
      * will allow you  to request a message that you will use to
