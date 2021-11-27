@@ -65,14 +65,14 @@ class Blockchain {
                 block.time = new Date().getTime().toString().slice(0,-3);
                 // getting previous Block Hash, exclude Genesis Block
                 if(this.chain.length>0){
-                    block.previousBlockHash = self.chain[self.height-1].hash; 
+                    block.previousBlockHash = self.chain[self.height - 1].hash; 
                   }
                 // creating Block Hash with SHA256 using block with complete header/body data, converting to a string 
                 block.hash = SHA256(JSON.stringify(block)).toString();
                 // adding block to the blockchain
                 this.chain.push(block);
                 // adjusting new blockchain height and resolve
-                this.height = self.chain.length
+                this.height = self.chain.length - 1;
                 resolve(block);
             } catch(error) {
                 reject(error);
@@ -152,6 +152,19 @@ class Blockchain {
     getBlockByHash(hash) {
         let self = this;
         return new Promise((resolve, reject) => {
+            const chainHeight = self.height;
+            try{
+                for(let i = 0; i <= chainHeight; i++){
+                    const block = self.chain[i];
+                    if (block.hash === hash) {
+                        resolve(block)
+                    }
+                }
+                reject(new Error(`No Block with hash:"${hash}"found`))
+
+            } catch(error) {
+                reject(error);
+            }
            
         });
     }
