@@ -135,7 +135,7 @@ class Blockchain {
                 // creating new block with owner and star as block body/data
                 const newBlock = new BlockClass.Block({'owner': address,'star':star});
                 // adding block to blockchain 
-                self._addBlock(newBlock);
+                await self._addBlock(newBlock);
                 resolve(newBlock);
             } catch (error) {
                 reject(error);
@@ -187,11 +187,11 @@ class Blockchain {
     getStarsByWalletAddress (address) {
         let self = this;
         let stars = [];
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             // Loop over chain and skip Genesis Block
-            for (var i = 0; i < this.chain.length-1; i++) {
+            for (var i = 1; i < this.chain.length; i++) {
                 // validate block
-                const blockData = self.chain[i].getBData() 
+                const blockData = await self.chain[i].getBData() 
                 if (blockData.owner === address) {
                     stars.push(blockData);
                 }
@@ -214,7 +214,7 @@ class Blockchain {
             // Loop over chain and skip Genesis Block
             for (var i = 0; i < this.chain.length-1; i++) {
                 // validate block
-                if (!self.chain[i].validate()) {
+                if (!(await self.chain[i].validate())) {
                     errorLog.push(i);
                 }
                 // compare blocks hash link
