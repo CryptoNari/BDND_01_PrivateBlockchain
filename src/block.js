@@ -45,6 +45,7 @@ class Block {
             // Recalculate the hash of the Block
             const checkHash = SHA256(JSON.stringify(self)).toString()   
             
+            self.hash = currHash
             // Comparing if the hashes changed
             // Returning the Block is not valid - FALSE
             // Returning the Block is valid - TRUE
