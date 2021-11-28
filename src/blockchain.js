@@ -73,7 +73,15 @@ class Blockchain {
                 this.chain.push(block);
                 // adjusting new blockchain height and resolve
                 this.height = self.chain.length - 1;
-                resolve(block);
+                // validate chain
+                const validate = await self.validateChain();
+                if(validate==='Blockchain is valid'){
+                    resolve(block);
+                } else {
+                    reject(new Error("Blockchain is not valid!"))
+                }
+
+                
             } catch(error) {
                 reject(error);
             }
@@ -125,12 +133,14 @@ class Blockchain {
             try{
                 // check elapsed time
                 if((currentTime - messageTime) >= maxElapsedTime){
-                    reject(new Error("5 minute validation time has passed"))
+                    reject(new Error("5 minute validation time has passed"));
+                    return;
                 }
                 // Verify message,address and signature
                 const validation = bitcoinMessage.verify(message, address, signature);
                 if(!validation){
-                    reject(new Error("Verification is invalid"))
+                    reject(new Error("Verification is invalid"));
+                    return;
                 }
                 // creating new block with owner and star as block body/data
                 const newBlock = new BlockClass.Block({'owner': address,'star':star});
@@ -223,15 +233,15 @@ class Blockchain {
                 if (blockHash!==previousHash) {
                   errorLog.push(i);
                 }
-              }
-              if (errorLog.length>0) {
+            }
+            if (errorLog.length>0) {
                   resolve({
                       'Block errors': errorLog.length,
                       'Blocks': errorLog
                   })
-              } else {
+            } else {
                 resolve('Blockchain is valid');
-              }
+            }
             
         });
     }
