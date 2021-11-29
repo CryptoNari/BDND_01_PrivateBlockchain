@@ -66,7 +66,9 @@ class Block {
         let self = this;
         return new Promise((resolve, reject) => {
             try {
+                // exclude genesis Block Data
                 if (self.height > 0) {
+                    // decode the data
                     const blockdata = JSON.parse(hex2ascii(self.body));
                     resolve(blockdata);
                 } else {

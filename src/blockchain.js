@@ -200,7 +200,7 @@ class Blockchain {
         return new Promise(async (resolve, reject) => {
             // Loop over chain and skip Genesis Block
             for (var i = 1; i < this.chain.length; i++) {
-                // validate block
+                // get Block Data
                 const blockData = await self.chain[i].getBData() 
                 if (blockData.owner === address) {
                     stars.push(blockData);
