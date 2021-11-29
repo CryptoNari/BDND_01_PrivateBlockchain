@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "a5040f07-4152-4893-8228-a94d69c52275",
+		"name": "BDND-PrivatBlockchain",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Genesis Block",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/block/height/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"block",
+						"height",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RequestValidation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address\":\"mppteFNVoTuJ7BHxbMedrhwt9JEbKv4QTX\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/requestValidation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"requestValidation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "submitStar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"address\":\"mppteFNVoTuJ7BHxbMedrhwt9JEbKv4QTX\",\n   \"signature\":\"IBfUPkBdEdLT2wfoYLQTYWKnQ91PTm5plnt/9qafTQPwEyUSx/LOx0nhJjlXO/z5s5+KTxfb4Gk7HsnfvinLHPo=\",\n   \"message\":\"mppteFNVoTuJ7BHxbMedrhwt9JEbKv4QTX:1638136962:starRegistry\",\n   \"star\": {\n       \"dec\":\"68 52 56.9\",\n       \"ra\":\"16h 29m 1.0s\",\n       \"story\":\"Testing 1\"\n   } \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/submitStar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"submitStar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieveStars",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/blocks/mppteFNVoTuJ7BHxbMedrhwt9JEbKv4QTX",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"blocks",
+						"mppteFNVoTuJ7BHxbMedrhwt9JEbKv4QTX"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validateChain",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/validateChain",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"validateChain"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
