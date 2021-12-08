@@ -37,7 +37,7 @@ class Block {
      */
     validate() {
         let self = this;
-        return new Promise((resolve, reject) => {
+        /* return new Promise((resolve, reject) => {
             // Save in auxiliary variable the current block hash
             const currHash = self.hash;                                 
             // reset current hash to recreate Hash
@@ -50,7 +50,16 @@ class Block {
             // Returning the Block is not valid - FALSE
             // Returning the Block is valid - TRUE
             resolve( currHash === checkHash) 
-        });
+        }); */
+        return self.hash === SHA256(
+            JSON.stringify(
+                {
+                    ...self,
+                    "hash": null
+                }
+
+            )
+        ).toString();
     }
 
     /**
